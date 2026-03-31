@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fitness Studio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --coral: #E8705A;
+      --pink: #F5C8C0;
+      --dark: #1a1a1a;
+      --light: #FAF7F4;
+      --gray: #888;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--light);
+      color: var(--dark);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER VIDEO SECTION ── */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.5) 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: #fff;
+      padding: 0 2rem;
+    }
+
+    .hero-content h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-content h1 span {
+      color: var(--coral);
+      display: block;
+    }
+
+    .hero-content p {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.85;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .scroll-hint .arrow {
+      width: 1px;
+      height: 48px;
+      background: rgba(255,255,255,0.4);
+      animation: scrollArrow 1.8s ease-in-out infinite;
+    }
+
+    @keyframes scrollArrow {
+      0%, 100% { transform: scaleY(1); opacity: 0.4; }
+      50% { transform: scaleY(1.3); opacity: 1; }
+    }
+
+    /* ── INTRO TEXT SECTION ── */
+    .intro {
+      padding: 8rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .intro .label {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--coral);
+      margin-bottom: 1.5rem;
+    }
+
+    .intro h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 2rem;
+      color: var(--dark);
+    }
+
+    .intro p {
+      font-size: 1.15rem;
+      line-height: 1.8;
+      color: var(--gray);
+      font-weight: 300;
+    }
+
+    /* ── SCROLL VIDEO SECTION ── */
+    .scroll-video-section {
+      position: relative;
+      height: 300vh; /* tall section to give scroll room */
+    }
+
+    .scroll-video-sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #F9EDE9;
+    }
+
+    .scroll-video-sticky video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      max-width: 900px;
+    }
+
+    .scroll-video-label {
+      position: absolute;
+      bottom: 3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--coral);
+    }
+
+    /* ── FEATURES SECTION ── */
+    .features {
+      padding: 8rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 3rem;
+    }
+
+    .feature-card {
+      padding: 3rem 2rem;
+      background: #fff;
+      border-radius: 4px;
+      border-top: 3px solid var(--coral);
+    }
+
+    .feature-card .number {
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
+      font-weight: 900;
+      color: var(--pink);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--dark);
+    }
+
+    .feature-card p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--gray);
+      font-weight: 300;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 4rem 2rem;
+      text-align: center;
+      background: var(--dark);
+      color: rgba(255,255,255,0.4);
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+    }
+
+    footer span {
+      color: var(--coral);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── HEADER VIDEO ── -->
+  <section class="hero">
+    <video src="video.mp4" autoplay muted loop playsinline preload="auto"></video>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>Stärke <span>kennt kein Alter.</span></h1>
+      <p>Training · Kraft · Ausdauer</p>
+    </div>
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="arrow"></div>
+    </div>
+  </section>
+
+  <!-- ── INTRO TEXT ── -->
+  <section class="intro">
+    <p class="label">Unser Ansatz</p>
+    <h2>Bewegung, die dein Leben verändert.</h2>
+    <p>Wir glauben, dass Fitness keine Frage des Alters ist. Mit dem richtigen Training, der richtigen Ausrüstung und der richtigen Einstellung erreichst du mehr, als du dir vorstellen kannst.</p>
+  </section>
+
+  <!-- ── SCROLL-DRIVEN DUMBBELL VIDEO ── -->
+  <section class="scroll-video-section">
+    <div class="scroll-video-sticky">
+      <video id="dumbbell-video" src="dumbbell-scroll.mp4" muted playsinline preload="auto"></video>
+      <p class="scroll-video-label">Scroll um das Video zu steuern</p>
+    </div>
+  </section>
+
+  <!-- ── FEATURES ── -->
+  <section class="features">
+    <div class="feature-card">
+      <div class="number">01</div>
+      <h3>Krafttraining</h3>
+      <p>Gezielte Übungen für Muskelaufbau, Knochendichte und funktionelle Stärke – angepasst an dein Level.</p>
+    </div>
+    <div class="feature-card">
+      <div class="number">02</div>
+      <h3>Ausdauer</h3>
+      <p>Schwimmen, Laufen, Radfahren – wir helfen dir, deine kardiovaskuläre Gesundheit nachhaltig zu verbessern.</p>
+    </div>
+    <div class="feature-card">
+      <div class="number">03</div>
+      <h3>Regeneration</h3>
+      <p>Mobility, Stretching und aktive Erholung sind genauso wichtig wie das Training selbst.</p>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <p>© 2026 <span>Fitness Studio</span> · Alle Rechte vorbehalten</p>
+  </footer>
+
+  <!-- ── GSAP + ScrollTrigger ── -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    const video = document.getElementById('dumbbell-video');
+
+    // Wait until video metadata is loaded
+    video.addEventListener('loadedmetadata', () => {
+
+      // GSAP ScrollTrigger: map scroll progress to video currentTime
+      ScrollTrigger.create({
+        trigger: '.scroll-video-section',
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 1.5,           // smooth lag in seconds (1.5 = buttery smooth)
+        onUpdate: (self) => {
+          // Set video frame based on scroll progress (0 to 1)
+          video.currentTime = self.progress * video.duration;
+        }
+      });
+
+    });
+
+    // Feature cards fade in on scroll
+    gsap.utils.toArray('.feature-card').forEach((card, i) => {
+      gsap.fromTo(card,
+        { opacity: 0, y: 60 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          delay: i * 0.15,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 85%',
+          }
+        }
+      );
+    });
+
+    // Intro text fade in
+    gsap.fromTo('.intro',
+      { opacity: 0, y: 40 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '.intro',
+          start: 'top 80%',
+        }
+      }
+    );
+  </script>
+
+</body>
+</html>

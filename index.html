@@ -251,7 +251,7 @@
   <section class="intro">
     <p class="label">Unser Ansatz</p>
     <h2>Bewegung, die dein Leben verändert.</h2>
-    <p>Ich glaube, dass Kraft keine Frage des Alters ist. Mit dem richtigen Training und der richtigen Einstellung erreichst du mehr, als du dir vorstellen kannst.</p>
+    <p>Wir glauben, dass Fitness keine Frage des Alters ist. Mit dem richtigen Training, der richtigen Ausrüstung und der richtigen Einstellung erreichst du mehr, als du dir vorstellen kannst.</p>
   </section>
 
   <!-- ── SCROLL-DRIVEN DUMBBELL VIDEO ── -->
@@ -295,26 +295,37 @@
     const video = document.getElementById('dumbbell-video');
 
     function initScrollVideo() {
-      // Pause video — scroll controls playback
       video.pause();
 
-      // Proxy object for GSAP to animate
-      const proxy = { t: 0 };
+      let targetTime = 0;   // where scroll wants to be
+      let currentTime = 0;  // where we currently are (smoothed)
+      let rafId = null;
+      const LERP = 0.12;    // smoothing factor — lower = smoother but slower
 
-      gsap.to(proxy, {
-        t: video.duration,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.scroll-video-section',
-          start: 'top top',
-          end: 'bottom bottom',
-          scrub: 1,
-          onUpdate: (self) => {
-            // Directly set currentTime from scroll progress
-            const targetTime = self.progress * video.duration;
-            video.currentTime = targetTime;
-          }
+      // RAF loop: interpolates currentTime toward targetTime each frame
+      function tick() {
+        const diff = targetTime - currentTime;
+
+        // Only seek if meaningfully different (avoids unnecessary seeks)
+        if (Math.abs(diff) > 0.001) {
+          currentTime += diff * LERP;
+          video.currentTime = currentTime;
         }
+
+        rafId = requestAnimationFrame(tick);
+      }
+      rafId = requestAnimationFrame(tick);
+
+      ScrollTrigger.create({
+        trigger: '.scroll-video-section',
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: true,
+        onUpdate: (self) => {
+          targetTime = self.progress * video.duration;
+        },
+        onLeaveBack: () => { targetTime = 0; },
+        onLeave: () => { targetTime = video.duration; }
       });
     }
 
